@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Casino - GitHub Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a3d4f, #051c24);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .balance {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+        
+        .chip-icon {
+            margin-right: 10px;
+            color: #ffd700;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #e74c3c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #ffd700;
+        }
+        
+        .casino-lobby {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .game-image {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #ffd700;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .game-info {
+            padding: 20px;
+        }
+        
+        .game-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+        
+        .players-online {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+        }
+        
+        .online-dot {
+            width: 10px;
+            height: 10px;
+            background: #2ecc71;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 12px 25px;
+            background: rgba(255, 215, 0, 0.2);
+            border: none;
+            border-radius: 30px;
+            color: #ffd700;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+        }
+        
+        .nav-btn.active {
+            background: rgba(255, 215, 0, 0.5);
+        }
+        
+        .leaderboard {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        .leaderboard h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        
+        .leaderboard-rank {
+            font-weight: bold;
+            color: #ffd700;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+        }
+        
+        .deployment-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 40px;
+        }
+        
+        .deployment-section h2 {
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .step-number {
+            background: #ffd700;
+            color: #0a3d4f;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+        
+        .github-btn:hover {
+            background: #555;
+        }
+        
+        @media (max-width: 768px) {
+            .casino-lobby {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .navigation {
+                flex-wrap: wrap;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-dice"></i>
+                <span>LUCKY CASINO</span>
+            </div>
+            <div class="user-info">
+                <div class="balance">
+                    <span class="chip-icon">🪙</span>
+                    <span>12,500 chips</span>
+                </div>
+                <div class="avatar">JD</div>
+            </div>
+        </header>
+        
+        <div class="navigation">
+            <button class="nav-btn active">
+                <i class="fas fa-dice"></i>
+                <span>All Games</span>
+            </button>
+            <button class="nav-btn">
+                <i class="fas fa-sliders-h"></i>
+                <span>Slots</span>
+            </button>
+            <button class="nav-btn">
+                <i class="fas fa-cards"></i>
+                <span>Table Games</span>
+            </button>
+            <button class="nav-btn">
+                <i class="fas fa-video"></i>
+                <span>Live Casino</span>
+            </button>
+            <button class="nav-btn">
+                <i class="fas fa-trophy"></i>
+                <span>Jackpots</span>
+            </button>
+        </div>
+        
+        <h2>Featured Games</h2>
+        
+        <div class="casino-lobby">
+            <div class="game-card">
+                <div class="game-image">♠️♥️♣️♦️</div>
+                <div class="game-info">
+                    <h3>Blackjack</h3>
+                    <p>Classic 21 - Compete against the dealer and other players</p>
+                    <div class="players-online">
+                        <span class="online-dot"></span>
+                        <span>124 players online</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-image">🎰</div>
+                <div class="game-info">
+                    <h3>Mega Slots</h3>
+                    <p>Try your luck with our premium progressive slots</p>
+                    <div class="players-online">
+                        <span class="online-dot"></span>
+                        <span>89 players online</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-card">
+                <div class="game-image">🃏</div>
+                <div class="game-info">
+                    <h3>Poker</h3>
+                    <p>Texas Hold'em tournaments and cash games</p>
+                    <div class="players-online">
+                        <span class="online-dot"></span>
+                        <span>76 players online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="leaderboard">
+            <h2>Weekly Leaderboard</h2>
+            <div class="leaderboard-item">
+                <span class="leaderboard-rank">#1</span>
+                <span>CasinoKing99</span>
+                <span>1,245,300 chips</span>
+            </div>
+            <div class="leaderboard-item">
+                <span class="leaderboard-rank">#2</span>
+                <span>LuckyLady</span>
+                <span>987,500 chips</span>
+            </div>
+            <div class="leaderboard-item">
+                <span class="leaderboard-rank">#3</span>
+                <span>HighRoller</span>
+                <span>756,200 chips</span>
+            </div>
+            <div class="leaderboard-item">
+                <span class="leaderboard-rank">#4</span>
+                <span>JackpotJenny</span>
+                <span>632,400 chips</span>
+            </div>
+            <div class="leaderboard-item">
+                <span class="leaderboard-rank">#5</span>
+                <span>DiceMaster</span>
+                <span>521,800 chips</span>
+            </div>
+        </div>
+        
+        <div class="deployment-section">
+            <h2>How to Deploy to GitHub Pages</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Create GitHub Account</h3>
+                    <p>Go to github.com and sign up for a free account if you don't have one.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Create Repository</h3>
+                    <p>Create a new repository named username.github.io (replace with your username).</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Upload Files</h3>
+                    <p>Upload this HTML file to your repository.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Enable GitHub Pages</h3>
+                    <p>Go to Settings → Pages → Select "main" branch → Save.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="https://github.com" target="_blank" class="github-btn">
+                    <i class="fab fa-github"></i>
+                    Get Started with GitHub
+                </a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Lucky Casino - For entertainment purposes only. No real money gambling involved.</p>
+            <p>You must be 18+ to play. Please gamble responsibly.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simple interactivity for the demo
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // In a real implementation, this would filter the games
+                alert('Filtering games for: ' + this.querySelector('span').textContent);
+            });
+        });
+        
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const gameName = this.querySelector('h3').textContent;
+                alert('Now launching: ' + gameName + '\n\nThis would load the actual game in a complete implementation.');
+            });
+        });
+        
+        // Simulate live player count updates
+        setInterval(() => {
+            const playerCounts = document.querySelectorAll('.players-online span:last-child');
+            playerCounts.forEach(count => {
+                const currentCount = parseInt(count.textContent);
+                const change = Math.floor(Math.random() * 5) - 2; // Random change between -2 and +2
+                const newCount = Math.max(10, currentCount + change); // Ensure at least 10 players
+                count.textContent = newCount + ' players online';
+            });
+        }, 5000);
+    </script>
+</body>
+</html>
