@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucky Casino - GitHub Edition</title>
+    <title>Global Casino - Online Multiplayer Experience</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,11 +13,126 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        :root {
+            --primary: #0a3d4f;
+            --secondary: #051c24;
+            --accent: #ffd700;
+            --text: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.1);
+        }
+        
         body {
-            background: linear-gradient(135deg, #0a3d4f, #051c24);
-            color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--text);
             min-height: 100vh;
             padding: 20px;
+        }
+        
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Login Screen */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        
+        .login-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .login-container h2 {
+            color: var(--accent);
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            font-size: 1rem;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: #ffed4e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Main Game Screen */
+        #game-screen {
+            display: none;
         }
         
         .container {
@@ -38,7 +153,7 @@
         .logo {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #ffd700;
+            color: var(--accent);
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
             display: flex;
             align-items: center;
@@ -62,7 +177,7 @@
         
         .chip-icon {
             margin-right: 10px;
-            color: #ffd700;
+            color: var(--accent);
         }
         
         .avatar {
@@ -74,7 +189,33 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            border: 2px solid #ffd700;
+            border: 2px solid var(--accent);
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            padding: 12px 25px;
+            background: rgba(255, 215, 0, 0.2);
+            border: none;
+            border-radius: 30px;
+            color: var(--accent);
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255, 215, 0, 0.5);
         }
         
         .casino-lobby {
@@ -85,7 +226,7 @@
         }
         
         .game-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
             border-radius: 15px;
             overflow: hidden;
             transition: transform 0.3s, box-shadow 0.3s;
@@ -104,7 +245,7 @@
             align-items: center;
             justify-content: center;
             font-size: 4rem;
-            color: #ffd700;
+            color: var(--accent);
             background: rgba(0, 0, 0, 0.2);
         }
         
@@ -115,7 +256,7 @@
         .game-info h3 {
             font-size: 1.5rem;
             margin-bottom: 10px;
-            color: #ffd700;
+            color: var(--accent);
         }
         
         .players-online {
@@ -134,36 +275,6 @@
             margin-right: 8px;
         }
         
-        .navigation {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-        
-        .nav-btn {
-            padding: 12px 25px;
-            background: rgba(255, 215, 0, 0.2);
-            border: none;
-            border-radius: 30px;
-            color: #ffd700;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .nav-btn:hover {
-            background: rgba(255, 215, 0, 0.3);
-        }
-        
-        .nav-btn.active {
-            background: rgba(255, 215, 0, 0.5);
-        }
-        
         .leaderboard {
             background: rgba(0, 0, 0, 0.3);
             border-radius: 15px;
@@ -172,7 +283,7 @@
         }
         
         .leaderboard h2 {
-            color: #ffd700;
+            color: var(--accent);
             margin-bottom: 20px;
             text-align: center;
         }
@@ -181,7 +292,7 @@
             display: flex;
             justify-content: space-between;
             padding: 15px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--card-bg);
             border-radius: 10px;
             margin-bottom: 10px;
             align-items: center;
@@ -189,7 +300,7 @@
         
         .leaderboard-rank {
             font-weight: bold;
-            color: #ffd700;
+            color: var(--accent);
             width: 40px;
             height: 40px;
             display: flex;
@@ -199,42 +310,69 @@
             border-radius: 50%;
         }
         
-        .deployment-section {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 40px;
-        }
-        
-        .deployment-section h2 {
-            color: #ffd700;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        
-        .step {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(0, 0, 0, 0.8);
             border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
         
-        .step-number {
-            background: #ffd700;
-            color: #0a3d4f;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .chat-header {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 12px;
             font-weight: bold;
-            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-messages {
+            height: 200px;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        
+        .message .username {
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
+        
+        .chat-input button {
+            margin-left: 10px;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
         }
         
         footer {
@@ -243,23 +381,6 @@
             padding: 20px;
             color: #aaa;
             font-size: 0.9rem;
-        }
-        
-        .github-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #333;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 15px;
-            transition: background 0.3s;
-        }
-        
-        .github-btn:hover {
-            background: #555;
         }
         
         @media (max-width: 768px) {
@@ -279,186 +400,357 @@
             .logo {
                 font-size: 2rem;
             }
+            
+            .chat-container {
+                width: 90%;
+                right: 5%;
+                bottom: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-dice"></i>
-                <span>LUCKY CASINO</span>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="spinner"></div>
+        <h2>Loading Global Casino...</h2>
+        <p>Connecting to multiplayer servers</p>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-container">
+            <h2><i class="fas fa-dice"></i> Global Casino</h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username">
             </div>
-            <div class="user-info">
-                <div class="balance">
-                    <span class="chip-icon">🪙</span>
-                    <span>12,500 chips</span>
-                </div>
-                <div class="avatar">JD</div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
             </div>
-        </header>
-        
-        <div class="navigation">
-            <button class="nav-btn active">
-                <i class="fas fa-dice"></i>
-                <span>All Games</span>
+            <button class="btn" id="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Sign In
             </button>
-            <button class="nav-btn">
-                <i class="fas fa-sliders-h"></i>
-                <span>Slots</span>
-            </button>
-            <button class="nav-btn">
-                <i class="fas fa-cards"></i>
-                <span>Table Games</span>
-            </button>
-            <button class="nav-btn">
-                <i class="fas fa-video"></i>
-                <span>Live Casino</span>
-            </button>
-            <button class="nav-btn">
-                <i class="fas fa-trophy"></i>
-                <span>Jackpots</span>
-            </button>
+            <p style="margin-top: 20px;">New player? Just enter a username to get started with 10,000 chips!</p>
         </div>
-        
-        <h2>Featured Games</h2>
-        
-        <div class="casino-lobby">
-            <div class="game-card">
-                <div class="game-image">♠️♥️♣️♦️</div>
-                <div class="game-info">
-                    <h3>Blackjack</h3>
-                    <p>Classic 21 - Compete against the dealer and other players</p>
-                    <div class="players-online">
-                        <span class="online-dot"></span>
-                        <span>124 players online</span>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game-screen">
+        <div class="container">
+            <header>
+                <div class="logo">
+                    <i class="fas fa-dice"></i>
+                    <span>GLOBAL CASINO</span>
+                </div>
+                <div class="user-info">
+                    <div class="balance">
+                        <span class="chip-icon">🪙</span>
+                        <span id="user-balance">10,000</span>
+                    </div>
+                    <div class="avatar" id="user-avatar">JD</div>
+                </div>
+            </header>
+            
+            <div class="navigation">
+                <button class="nav-btn active">
+                    <i class="fas fa-dice"></i>
+                    <span>All Games</span>
+                </button>
+                <button class="nav-btn">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Slots</span>
+                </button>
+                <button class="nav-btn">
+                    <i class="fas fa-cards"></i>
+                    <span>Table Games</span>
+                </button>
+                <button class="nav-btn">
+                    <i class="fas fa-video"></i>
+                    <span>Live Casino</span>
+                </button>
+                <button class="nav-btn">
+                    <i class="fas fa-trophy"></i>
+                    <span>Jackpots</span>
+                </button>
+            </div>
+            
+            <h2>Featured Games</h2>
+            
+            <div class="casino-lobby">
+                <div class="game-card">
+                    <div class="game-image">♠️♥️♣️♦️</div>
+                    <div class="game-info">
+                        <h3>Blackjack</h3>
+                        <p>Classic 21 - Compete against the dealer and other players</p>
+                        <div class="players-online">
+                            <span class="online-dot"></span>
+                            <span>124 players online</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">🎰</div>
+                    <div class="game-info">
+                        <h3>Mega Slots</h3>
+                        <p>Try your luck with our premium progressive slots</p>
+                        <div class="players-online">
+                            <span class="online-dot"></span>
+                            <span>89 players online</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">🃏</div>
+                    <div class="game-info">
+                        <h3>Poker</h3>
+                        <p>Texas Hold'em tournaments and cash games</p>
+                        <div class="players-online">
+                            <span class="online-dot"></span>
+                            <span>76 players online</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">🎡</div>
+                    <div class="game-info">
+                        <h3>Roulette</h3>
+                        <p>Place your bets and spin the wheel of fortune</p>
+                        <div class="players-online">
+                            <span class="online-dot"></span>
+                            <span>53 players online</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">🎲</div>
+                    <div class="game-info">
+                        <h3>Craps</h3>
+                        <p>Roll the dice and test your luck at the craps table</p>
+                        <div class="players-online">
+                            <span class="online-dot"></span>
+                            <span>31 players online</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-image">🪙</div>
+                    <div class="game-info">
+                        <h3>High Stakes</h3>
+                        <p>VIP tables for high rollers with exclusive rewards</p>
+                        <div class="players-online">
+                            <span class="online-dot"></span>
+                            <span>18 players online</span>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <div class="game-card">
-                <div class="game-image">🎰</div>
-                <div class="game-info">
-                    <h3>Mega Slots</h3>
-                    <p>Try your luck with our premium progressive slots</p>
-                    <div class="players-online">
-                        <span class="online-dot"></span>
-                        <span>89 players online</span>
-                    </div>
+            <div class="leaderboard">
+                <h2>Global Leaderboard</h2>
+                <div class="leaderboard-item">
+                    <span class="leaderboard-rank">#1</span>
+                    <span>CasinoKing99</span>
+                    <span>1,245,300 chips</span>
+                </div>
+                <div class="leaderboard-item">
+                    <span class="leaderboard-rank">#2</span>
+                    <span>LuckyLady</span>
+                    <span>987,500 chips</span>
+                </div>
+                <div class="leaderboard-item">
+                    <span class="leaderboard-rank">#3</span>
+                    <span>HighRoller</span>
+                    <span>756,200 chips</span>
+                </div>
+                <div class="leaderboard-item">
+                    <span class="leaderboard-rank">#4</span>
+                    <span>JackpotJenny</span>
+                    <span>632,400 chips</span>
+                </div>
+                <div class="leaderboard-item">
+                    <span class="leaderboard-rank">#5</span>
+                    <span>DiceMaster</span>
+                    <span>521,800 chips</span>
                 </div>
             </div>
             
-            <div class="game-card">
-                <div class="game-image">🃏</div>
-                <div class="game-info">
-                    <h3>Poker</h3>
-                    <p>Texas Hold'em tournaments and cash games</p>
-                    <div class="players-online">
-                        <span class="online-dot"></span>
-                        <span>76 players online</span>
-                    </div>
-                </div>
-            </div>
+            <footer>
+                <p>Global Casino - For entertainment purposes only. No real money gambling involved.</p>
+                <p>You must be 18+ to play. Please gamble responsibly.</p>
+            </footer>
         </div>
         
-        <div class="leaderboard">
-            <h2>Weekly Leaderboard</h2>
-            <div class="leaderboard-item">
-                <span class="leaderboard-rank">#1</span>
-                <span>CasinoKing99</span>
-                <span>1,245,300 chips</span>
+        <!-- Chat System -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <span>Global Chat</span>
+                <span><i class="fas fa-comments"></i></span>
             </div>
-            <div class="leaderboard-item">
-                <span class="leaderboard-rank">#2</span>
-                <span>LuckyLady</span>
-                <span>987,500 chips</span>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message">
+                    <span class="username">System:</span>
+                    <span>Welcome to Global Casino! Chat with players from around the world.</span>
+                </div>
+                <div class="message">
+                    <span class="username">CasinoKing99:</span>
+                    <span>Just hit a 500x multiplier on slots! 🎰</span>
+                </div>
+                <div class="message">
+                    <span class="username">LuckyLady:</span>
+                    <span>Anyone for a game of blackjack?</span>
+                </div>
             </div>
-            <div class="leaderboard-item">
-                <span class="leaderboard-rank">#3</span>
-                <span>HighRoller</span>
-                <span>756,200 chips</span>
-            </div>
-            <div class="leaderboard-item">
-                <span class="leaderboard-rank">#4</span>
-                <span>JackpotJenny</span>
-                <span>632,400 chips</span>
-            </div>
-            <div class="leaderboard-item">
-                <span class="leaderboard-rank">#5</span>
-                <span>DiceMaster</span>
-                <span>521,800 chips</span>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="send-message"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
-        
-        <div class="deployment-section">
-            <h2>How to Deploy to GitHub Pages</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Create GitHub Account</h3>
-                    <p>Go to github.com and sign up for a free account if you don't have one.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Create Repository</h3>
-                    <p>Create a new repository named username.github.io (replace with your username).</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Upload Files</h3>
-                    <p>Upload this HTML file to your repository.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3>Enable GitHub Pages</h3>
-                    <p>Go to Settings → Pages → Select "main" branch → Save.</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <a href="https://github.com" target="_blank" class="github-btn">
-                    <i class="fab fa-github"></i>
-                    Get Started with GitHub
-                </a>
-            </div>
-        </div>
-        
-        <footer>
-            <p>Lucky Casino - For entertainment purposes only. No real money gambling involved.</p>
-            <p>You must be 18+ to play. Please gamble responsibly.</p>
-        </footer>
     </div>
 
     <script>
-        // Simple interactivity for the demo
+        // Simulate loading process
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                document.getElementById('login-screen').style.display = 'flex';
+            }, 500);
+        }, 2500);
+        
+        // Login functionality
+        document.getElementById('login-btn').addEventListener('click', () => {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (username) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('game-screen').style.display = 'block';
+                
+                // Set user info
+                document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
+                
+                // Simulate connecting to multiplayer servers
+                simulateMultiplayer();
+            } else {
+                alert('Please enter a username to play');
+            }
+        });
+        
+        // Chat functionality
+        document.getElementById('send-message').addEventListener('click', () => {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const chatMessages = document.getElementById('chat-messages');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `<span class="username">You:</span> <span>${message}</span>`;
+                
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                input.value = '';
+                
+                // Simulate response after a delay
+                setTimeout(() => {
+                    const responses = [
+                        "Nice one!",
+                        "I'm having a great time playing slots!",
+                        "Anyone want to join a poker table?",
+                        "Just won big at roulette!",
+                        "This casino is awesome!",
+                        "Good luck everyone! 🍀"
+                    ];
+                    
+                    const users = ['CasinoKing99', 'LuckyLady', 'HighRoller', 'JackpotJenny', 'DiceMaster'];
+                    const randomUser = users[Math.floor(Math.random() * users.length)];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    
+                    const responseElement = document.createElement('div');
+                    responseElement.classList.add('message');
+                    responseElement.innerHTML = `<span class="username">${randomUser}:</span> <span>${randomResponse}</span>`;
+                    
+                    chatMessages.appendChild(responseElement);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000 + Math.random() * 2000);
+            }
+        });
+        
+        // Allow sending message with Enter key
+        document.getElementById('chat-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('send-message').click();
+            }
+        });
+        
+        // Navigation buttons
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.nav-btn').forEach(b => {
                     b.classList.remove('active');
                 });
                 this.classList.add('active');
-                
-                // In a real implementation, this would filter the games
-                alert('Filtering games for: ' + this.querySelector('span').textContent);
             });
         });
         
+        // Game cards
         document.querySelectorAll('.game-card').forEach(card => {
             card.addEventListener('click', function() {
                 const gameName = this.querySelector('h3').textContent;
-                alert('Now launching: ' + gameName + '\n\nThis would load the actual game in a complete implementation.');
+                alert(`Now loading: ${gameName}\n\nThis would connect you to a real multiplayer game in a full implementation.`);
             });
         });
         
-        // Simulate live player count updates
-        setInterval(() => {
-            const playerCounts = document.querySelectorAll('.players-online span:last-child');
-            playerCounts.forEach(count => {
-                const currentCount = parseInt(count.textContent);
-                const change = Math.floor(Math.random() * 5) - 2; // Random change between -2 and +2
-                const newCount = Math.max(10, currentCount + change); // Ensure at least 10 players
-                count.textContent = newCount + ' players online';
-            });
-        }, 5000);
+        // Simulate multiplayer functionality
+        function simulateMultiplayer() {
+            // Simulate player count changes
+            setInterval(() => {
+                const playerCounts = document.querySelectorAll('.players-online span:last-child');
+                playerCounts.forEach(count => {
+                    const currentCount = parseInt(count.textContent);
+                    const change = Math.floor(Math.random() * 5) - 2;
+                    const newCount = Math.max(10, currentCount + change);
+                    count.textContent = newCount + ' players online';
+                });
+            }, 5000);
+            
+            // Simulate leaderboard updates
+            setInterval(() => {
+                const leaderboardItems = document.querySelectorAll('.leaderboard-item');
+                leaderboardItems.forEach(item => {
+                    const chipsElement = item.querySelector('span:last-child');
+                    const currentChips = parseInt(chipsElement.textContent.replace(/,/g, ''));
+                    const change = Math.floor(Math.random() * 10000) - 4000;
+                    const newChips = Math.max(100000, currentChips + change);
+                    chipsElement.textContent = newChips.toLocaleString() + ' chips';
+                });
+            }, 10000);
+            
+            // Simulate periodic chip bonus
+            setInterval(() => {
+                const balanceElement = document.getElementById('user-balance');
+                const currentBalance = parseInt(balanceElement.textContent.replace(/,/g, ''));
+                const newBalance = currentBalance + 10000;
+                balanceElement.textContent = newBalance.toLocaleString();
+                
+                // Show notification
+                const chatMessages = document.getElementById('chat-messages');
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `<span class="username">System:</span> <span>You received 10,000 bonus chips! Your balance is now ${newBalance.toLocaleString()} chips.</span>`;
+                
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 30000); // 30 seconds for demo (5 hours would be 5*60*60*1000)
+        }
     </script>
 </body>
 </html>
